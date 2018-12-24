@@ -1,0 +1,11 @@
+;-------------------------------------
+; MOUSDEMO.DEF module definition file
+;-------------------------------------
+
+NAME           MOUSDEMO  WINDOWAPI
+
+DESCRIPTION    'Mouse Demonstration Program (c) 1988, Ziff Communications Co.'
+PROTMODE
+HEAPSIZE       1024
+STACKSIZE      8192
+EXPORTS        ClientWndProc
