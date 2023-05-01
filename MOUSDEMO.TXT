@@ -1,0 +1,58 @@
+Name: 		MOUSDEMO
+Descripcion: 	A PM Mouse Demonstration
+Date: 		2023-04-30
+Version:	1.01
+----------------------------   
+
+DESCRIPTION
+-----------
+Demonstrates mouse message processing. 
+
+
+REQUIREMENTS
+------------
+- yum install git gcc make libc-devel binutils watcom-wrc watcom-wlink-hll
+
+COMPILE INSTRUCTIONS
+--------------------
+This version of this sample was modified to compile on ArcaOS with GCC 9 compiler. 
+
+1) Remember to have correct header files your path. For GCC the correct ones are the included on the "libc-devel", not the ones from the OS/2 Toolkit. Check your config.sys for "SET INCLUDE=C:\usr\include"
+
+2) Since I'm using the Watcom Resource Compiler (open source) instead of the classic rc.exe, and the the Watcom Linker, intead of the classic ilink.exe, add to your config.sys...
+ SET EMXOMFLD_LINKER=wl.exe
+ SET EMXOMFLD_TYPE=WLINK
+ SET EMXOMFLD_RC_TYPE=WRC
+ SET EMXOMFLD_RC=wrc.exe
+
+3) Run "make" or "make 2>&1 |tee make.out" to get the log file.
+
+
+TOOLS USED
+----------
+- ArcaOS	- Verion 5.0.7
+- wrc 		- Watcom Resource Compiler version 2.0beta1
+- wl		- Watcom Linker
+- gcc		- gcc (GCC) 9.2.0 20190812 (OS/2 RPM build 9.2.0-5.oc00)
+- make 		- Version 3.81 k2 (2017-11-10)
+
+TROUBLESHOOT
+------------
+The compile produce will run by just executing make on the directory, but a compile.cmd file is includes to store the log in a file. If you want to save the log file you can run it as "make 2>&1 |tee make.out". The log will be saved into the "make.out" file.
+
+HISTORY
+---------- 
+- 1.01 - 2023-04-30
+Changed version to compile on gcc and to run on ArcaOS 5.0.7.
+
+- 1.0 - 1988-11
+Original version by Charles Petzold / Ziff Communications Co. / PC Magazine
+ 
+LICENSE
+-------
+The 3-Clause BSD License.
+
+AUTHORS
+-------
+- Martin Iturbide (2023)
+- Charles Petzold (1988)

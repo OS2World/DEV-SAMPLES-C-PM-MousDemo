@@ -1,9 +1,0 @@
-#--------------------
-# MOUSDEMO make file
-#--------------------
-
-mousdemo.obj : mousdemo.c
-     cl -c -G2sw -W3 mousdemo.c
-
-mousdemo.exe : mousdemo.obj mousdemo.def
-     link mousdemo, /align:16, NUL, os2, mousdemo

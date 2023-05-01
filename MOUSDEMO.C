@@ -1,7 +1,5 @@
 /*-------------------------------------------------------------
    MOUSDEMO.C -- Demonstrates mouse message processing.
-                 (c) 1988, Ziff Communications Co.
-                 PC Magazine * Charles Petzold, 8/88 and 11/88
   -------------------------------------------------------------*/
 
 #define INCL_WIN
@@ -10,7 +8,7 @@
 #include <stdio.h>
 #define ID_TIMER    1
 
-MRESULT EXPENTRY ClientWndProc (HWND, USHORT, MPARAM, MPARAM) ;
+MRESULT EXPENTRY ClientWndProc (HWND, ULONG, MPARAM, MPARAM) ;
 HAB  hab ;
 
 int main (void)
@@ -26,17 +24,17 @@ int main (void)
      hab = WinInitialize (0) ;
      hmq = WinCreateMsgQueue (hab, 0) ;
 
-     WinRegisterClass (hab, szClientClass, ClientWndProc, CS_SIZEREDRAW, 0) ;
+     WinRegisterClass (hab, (PCSZ) szClientClass, (PFNWP) ClientWndProc, CS_SIZEREDRAW, 0) ;
 
      hwndFrame = WinCreateStdWindow (HWND_DESKTOP, WS_VISIBLE,
-                                     &flFrameFlags, szClientClass, NULL,
-                                     0L, NULL, 0, &hwndClient) ;
+                                     &flFrameFlags, (PCSZ) szClientClass, NULLHANDLE,
+                                     0L, NULLHANDLE, 0, &hwndClient) ;
 
      WinSendMsg (hwndFrame, WM_SETICON,
-                 WinQuerySysPointer (HWND_DESKTOP, SPTR_APPICON, FALSE),
-                 NULL) ;
+                 (MPARAM) WinQuerySysPointer (HWND_DESKTOP, SPTR_APPICON, FALSE),
+                 NULLHANDLE) ;
 
-     while (WinGetMsg (hab, &qmsg, NULL, 0, 0))
+     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
           WinDispatchMsg (hab, &qmsg) ;
 
      WinDestroyWindow (hwndFrame) ;
@@ -45,22 +43,22 @@ int main (void)
      return 0 ;
      }
 
-VOID PaintWindow (HWND hwnd, HPS hps, SHORT xPointer, SHORT yPointer)
+VOID PaintWindow (HWND hwnd, HPS hps, LONG xPointer, LONG yPointer)
      {
      static CHAR szBuffer [40] ;
      RECTL       rcl ;
 
-     sprintf (szBuffer, "    Pointer Position = (%d, %d)    ",
-              xPointer, yPointer) ;
+     sprintf (szBuffer, "Pointer Position = (%d, %d)",
+              (int) xPointer, (int) yPointer) ;
      WinQueryWindowRect (hwnd, &rcl) ;
      GpiSetBackMix (hps, BM_OVERPAINT) ;
-     WinDrawText (hps, -1, szBuffer, &rcl, CLR_NEUTRAL, CLR_BACKGROUND,
+     WinDrawText (hps, -1, (PCCH) szBuffer, &rcl, CLR_NEUTRAL, CLR_BACKGROUND,
                   DT_CENTER | DT_VCENTER) ;
      }
 
-MRESULT EXPENTRY ClientWndProc (HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2)
+MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
      {
-     static SHORT xPointer, yPointer ;
+     static LONG xPointer, yPointer ;
      HPS          hps;
      POINTL       ptl ;
 
@@ -73,8 +71,8 @@ MRESULT EXPENTRY ClientWndProc (HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2)
           case WM_TIMER:
                WinQueryPointerPos (HWND_DESKTOP, &ptl) ;
                WinMapWindowPoints (HWND_DESKTOP, hwnd, &ptl, 1) ;
-               xPointer = (SHORT) ptl.x ;
-               yPointer = (SHORT) ptl.y ;
+               xPointer = (LONG) ptl.x ;
+               yPointer = (LONG) ptl.y ;
 
                hps = WinGetPS (hwnd) ;
                PaintWindow (hwnd, hps, xPointer, yPointer) ;
@@ -96,14 +94,14 @@ MRESULT EXPENTRY ClientWndProc (HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2)
 
           case WM_BUTTON1UP:
                DosBeep (512, 100) ;
-               return 1 ;
+               return ((MRESULT)TRUE) ;
 
           case WM_BUTTON1DBLCLK:
                DosBeep (1024, 100) ;
-               return 1 ;
+               return ((MRESULT)TRUE) ;
 
           case WM_PAINT:
-               hps = WinBeginPaint (hwnd, NULL, NULL) ;
+               hps = WinBeginPaint (hwnd, NULLHANDLE, NULLHANDLE) ;
                GpiErase (hps) ;
                PaintWindow (hwnd, hps, xPointer, yPointer) ;
                WinEndPaint (hps) ;
