@@ -13,7 +13,7 @@ COMPILE TOOLS
 AUTHORS
 ===============
 * Martin Iturbide (2023)
-* 
+* Charles Petzold (1988)
 
 LINKS
 ===============
