@@ -1,6 +1,7 @@
-# DEV-SAMPLES-C-MousDemo
-PCMag Demo for OS/2 Mouse. 
+# DEV-SAMPLES-C-PM-MousDemo
+A C PM sample that shows the coordinated of the mouse. Provided in the PC Magazine. 
 
+![MouseDemo ScreenShot](/wiki/MousDemo_001.png)
 
 LICENSE
 ===============
